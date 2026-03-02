@@ -1,0 +1,263 @@
+/*  BONUS: RESET (cerință bonus) */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { font-size: 16px; }
+body { margin: 0; }
+
+h1,h2,h3,p,figure,ul,ol,dl,dd { margin: 0; padding: 0; }
+ul,ol { padding-left: 1.25rem; }
+img, iframe { max-width: 100%; }
+
+
+:root{
+  --bg: #050307;
+  --surface: #0f0a14;
+  --surface-2: #171022;
+  --text: #f4effb;
+  --muted: #cdb8e6;
+
+  --pink: #ff3aa7;
+  --pink-2: #ff7ac8;
+  --line: rgba(255, 58, 167, 0.35);
+
+  --radius: 16px;
+  --shadow: 0 12px 28px rgba(0,0,0,0.65);
+
+  --page-pad: 3rem;
+  --page-gap: 16px;
+  --box-pad: 0.95rem;
+
+  --max-media: 920px;
+  --min-media: 240px;
+}
+
+@media (max-width: 1000px){
+  :root{ --page-pad: 1.4rem; --page-gap: 10px; }
+}
+@media (max-width: 700px){
+  :root{ --page-pad: 0.6rem; --page-gap: 6px; }
+}
+
+/* TYPO  */
+body{
+  background: radial-gradient(900px 500px at 15% 0%, rgba(255,58,167,0.14), transparent 55%),
+              radial-gradient(900px 500px at 85% 10%, rgba(255,122,200,0.10), transparent 60%),
+              var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.55;
+}
+
+h1{
+  font-family: "UnifrakturCook", serif;
+  letter-spacing: 0.5px;
+  font-size: 2.2rem;
+  color: var(--pink);
+  text-shadow: 0 0 14px rgba(255,58,167,0.25);
+}
+
+h2{ margin-top: 0.2rem; margin-bottom: 0.65rem; }
+h3{ margin-top: 0.75rem; margin-bottom: 0.35rem; color: var(--pink-2); }
+
+p{ margin: 0.5rem 0; color: var(--text); }
+
+a{ color: var(--pink-2); }
+a:hover{ color: var(--pink); }
+
+code{
+  background: rgba(255,58,167,0.12);
+  border: 1px solid rgba(255,58,167,0.22);
+  padding: 0.05rem 0.35rem;
+  border-radius: 8px;
+}
+
+/*  PAGE SPACING  */
+main{
+  display: grid;
+  gap: var(--page-gap);
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+}
+
+/*HEADER / FOOTER - */
+header, footer{
+  margin: 1rem var(--page-pad);
+  background: linear-gradient(180deg, rgba(255,58,167,0.08), rgba(0,0,0,0)) , var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--box-pad);
+}
+
+/* meniul */
+header nav ul{ list-style: none; padding-left: 0; }
+header nav > ul{ display:flex; gap: 0.9rem; flex-wrap: wrap; }
+header nav li ul{ list-style: none; padding-left: 0; margin-top: 0.35rem; }
+header nav a{ text-decoration: none; font-weight: 800; }
+header nav a:hover{ text-decoration: underline; }
+
+/* ---------------- SECTION BOXES + GAP ---------------- */
+main > section{
+  background: var(--surface);
+  border: 1px solid rgba(255,58,167,0.22);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--box-pad);
+}
+main > section:nth-of-type(even){
+  background: var(--surface-2);
+}
+
+/* ---------------- MEDIA fluid ---------------- */
+picture, img, iframe{
+  display: block;
+}
+
+img, iframe{
+  width: 100%;
+  max-width: var(--max-media);
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(255,58,167,0.25);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.55);
+}
+
+@media (max-width: 700px){
+  img, iframe{
+    min-width: 100px;
+  }
+}
+
+figure{ margin-top: 0.8rem; }
+figcaption{ margin-top: 0.45rem; color: var(--muted); font-size: 0.95rem; }
+
+/* ---------------- DETAILS ---------------- */
+details{
+  margin-top: 0.55rem;
+  border: 1px solid rgba(255,58,167,0.20);
+  border-radius: 14px;
+  padding: 0.6rem 0.75rem;
+  background: rgba(0,0,0,0.15);
+}
+summary{
+  cursor: pointer;
+  font-weight: 900;
+  color: var(--pink-2);
+}
+
+/* ---------------- METER ---------------- */
+meter{
+  width: min(420px, 100%);
+  height: 1.1rem;
+}
+
+/* ---------------- TABURI IFRAME ---------------- */
+.container-iframe{
+  display:flex;
+  gap: 0.75rem;
+  align-items:flex-start;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.taburi-iframe{
+  display:flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.taburi-iframe a{
+  display:inline-block;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--pink);
+  background: rgba(255,58,167,0.18);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+}
+.taburi-iframe a:hover{
+  background: rgba(255,58,167,0.35);
+}
+
+.container-iframe iframe{
+  flex: 1 1 420px;
+  max-width: var(--max-media);
+}
+
+/* ---------------- TABLE styling + nth-child + overflow ---------------- */
+#time-table{ overflow-x: auto; }
+
+#tabel{
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+#tabel caption{
+  caption-side: top;
+  text-align: left;
+  font-weight: 900;
+  color: var(--pink-2);
+  padding-bottom: 0.4rem;
+}
+
+#tabel th, #tabel td{
+  border: 1px solid rgba(255,58,167,0.25);
+  padding: 0.45rem 0.55rem;
+}
+
+#tabel thead th{
+  background: rgba(255,58,167,0.18);
+  color: var(--text);
+}
+
+#tabel tbody tr:nth-child(odd){ background: rgba(255,58,167,0.08); }
+#tabel tbody tr:nth-child(even){ background: rgba(0,0,0,0.20); }
+
+#tabel tbody td:nth-child(odd){ background: rgba(255,255,255,0.03); }
+#tabel tbody td:nth-child(even){ background: rgba(0,0,0,0.10); }
+
+/* ---------------- LINK TOP ---------------- */
+#link-top{
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(255,58,167,0.22);
+  border: 1px solid rgba(255,58,167,0.35);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+}
+
+#triunghi{
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 18px solid var(--pink);
+  filter: drop-shadow(0 0 10px rgba(255,58,167,0.35));
+}
+
+#link-top:hover{ background: rgba(255,58,167,0.35); }
+
+/* ---------------- BONUS: MathML styling ---------------- */
+#math math{ font-size: 1.6rem; margin-top: 0.5rem; }
+#math mi{
+  font-style: italic;
+  font-weight: 900;
+  color: var(--pink);
+}
+#math mo{
+  color: var(--text);
+  font-weight: 800;
+}

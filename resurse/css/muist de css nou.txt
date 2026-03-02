@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Magazin de discuri — Viniluri și CD-uri (Rock & Metal)</title>
+
+  <meta name="author" content="Dospinescu Diana-Ioana">
+  <meta name="keywords" content="muzică, magazin de discuri, viniluri, CD-uri, București, rock, metal, pick-up, promoții, orar magazin">
+  <meta name="description" content="Magazin de discuri în București: viniluri și CD-uri pentru toate genurile, cu focus pe rock și metal. Promoții, evenimente, orar și ghid pentru pick-up.">
+
+  <meta name="msapplication-TileColor" content="#1c1c1c">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="./resurse/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./resurse/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./resurse/favicon/favicon-16x16.png">
+  <link rel="manifest" href="./resurse/favicon/site.webmanifest">
+  <link rel="shortcut icon" href="./resurse/favicon/favicon.ico">
+
+  <!-- Google Font (goth-ish) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- CSS Etapa 2 (goth pink x black) -->
+  <link rel="stylesheet" href="resurse/css/etapa2-goth.css">
+</head>
+
+<body id="top">
+  <header>
+    <h1>Magazin de discuri — Viniluri și CD-uri</h1>
+
+    <nav aria-label="Navigare principală">
+      <ul>
+        <li>
+          <a href="index.html">Acasă</a>
+          <ul>
+            <li><a href="#welcome">Bine ai venit</a></li>
+            <li><a href="#promotions">Promoții</a></li>
+            <li><a href="#products">Produse</a></li>
+            <li><a href="#interesting-facts">Info & Video</a></li>
+            <li><a href="#events">Evenimente</a></li>
+            <li><a href="#time-table">Orar</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#tabel">Tabel</a></li>
+            <li><a href="#math">MathML</a></li>
+          </ul>
+        </li>
+        <li><a href="produse.html">Produse</a></li>
+        <li><a href="promotii.html">Promoții</a></li>
+        <li><a href="resurse.html">Resurse</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <section id="welcome">
+      <hgroup>
+        <h2>Bine ai venit!</h2>
+        <p>Viniluri și CD-uri în București pentru colecționari și începători</p>
+      </hgroup>
+
+      <p>
+        La <b>magazinul de discuri</b> din <b>București</b> găsești <b>viniluri</b> și <b>CD-uri</b>
+        pentru toate genurile, cu focus pe <b>rock</b> și <b>metal</b>.
+        Dacă ești la început, îți explicăm pe scurt cum alegi un <b>pick-up</b> și cum îți îngrijești colecția de <b>muzică</b>.
+      </p>
+
+      <p>
+        Termeni tehnici (marcați idiomatic): <i>hi-fi</i>, <i>second-hand</i>.
+        Important: <strong>verifică întotdeauna starea discului înainte de cumpărare</strong>.
+      </p>
+
+      <dl>
+        <dt><dfn>Pick-up</dfn></dt>
+        <dd>Dispozitiv pentru redarea vinilurilor, cu braț și ac (cartuș).</dd>
+
+        <dt><abbr title="High Fidelity">Hi-Fi</abbr></dt>
+        <dd>Termen folosit pentru redare audio de calitate (fidelitate ridicată).</dd>
+      </dl>
+
+      <p>
+        Resursă externă (nu e în meniu):
+        <a href="https://www.discogs.com/" target="_blank" rel="noopener">Discogs (catalog & marketplace)</a>
+      </p>
+
+      <p>
+        Link extern către un element din resursă (cu <code>#</code> + textul e adresa + <code>wbr</code>):
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture#attributes" target="_blank" rel="noopener">
+          https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture<wbr>#attributes
+        </a>
+      </p>
+
+      <p>
+        Corecție de text:
+        <s>Vinilul e doar pentru nostalgie.</s>
+        <ins>Vinilul e și pentru colecționare și pentru experiența de ascultare.</ins>
+      </p>
+
+      <blockquote cite="https://www.discogs.com/">
+        <p><q>O colecție bună începe cu un disc ales corect.</q></p>
+        <p>Lectură recomandată: <cite>Discogs</cite></p>
+      </blockquote>
+    </section>
+
+    <section id="promotions">
+      <h2><i class="fa-solid fa-percent fa-bounce"></i> Promoții</h2>
+
+      <details>
+        <summary><strong>2+1: la 2 produse, al 3-lea are 50% reducere (pe cel mai ieftin)</strong></summary>
+        <p>Promoția se aplică în limita stocului disponibil.</p>
+      </details>
+
+      <section id="promotions-sub">
+        <h3>Oferte săptămâna aceasta</h3>
+        <p>
+          Avem promoții la <b>viniluri</b> și <b>CD-uri</b> pentru <b>rock</b> și <b>metal</b>,
+          plus câteva titluri <i>limited edition</i>.
+        </p>
+
+        <p>
+          Număr clienți în magazin (simulat, raportat la capacitate):
+          <meter value="8" min="0" max="30" low="10" high="22" optimum="15">8/30</meter>
+        </p>
+
+        <p>
+          Popularitatea promoției (simulat):
+          <meter value="26" min="0" max="30" low="10" high="22" optimum="15">26/30</meter>
+        </p>
+      </section>
+    </section>
+
+    <section id="products">
+      <h2><i class="fa-solid fa-record-vinyl"></i> Produse</h2>
+      <p>
+        Pe stoc: <b>viniluri</b>, <b>CD-uri</b> și accesorii de <b>pick-up</b>.
+        Vei găsi muzică în special <b>rock</b> și <b>metal</b>, dar și alte genuri.
+      </p>
+
+      <figure>
+        <picture>
+          <source media="(max-width: 600px)" srcset="./resurse/imagini/vinyl_small.jpg">
+          <source media="(max-width: 1024px)" srcset="./resurse/imagini/vinyl_medium.jpg">
+          <img src="./resurse/imagini/vinyl.jpeg"
+               alt="Viniluri pe raft într-un magazin de discuri"
+               title="Viniluri — colecție"
+               width="900" height="500">
+        </picture>
+        <figcaption>Viniluri: colecție rock, metal și multe altele.</figcaption>
+      </figure>
+
+      <p>
+        Link cu imagine: deschide imaginea mare în tabul curent:
+        <a href="./resurse/imagini/vinyl.jpeg">
+          <img src="./resurse/imagini/vinyl.jpeg" alt="Miniatură vinil" width="220" height="120">
+        </a>
+      </p>
+
+      <p>
+        Link de download (funcționează pe server, ex: Live Server):
+        <a href="./resurse/pdf/ghid_pickup.pdf" download="ghid_pickup_magazin_discuri.pdf">Descarcă ghidul PDF</a>
+      </p>
+    </section>
+
+    <section id="interesting-facts">
+      <h2>Info & Video: viniluri și CD-uri</h2>
+      <p>
+        Dacă te-ai întrebat cum se produc vinilurile sau cum funcționează CD-urile, ai mai jos două clipuri.
+      </p>
+
+      <div class="container-iframe">
+        <div class="taburi-iframe">
+          <a href="https://www.youtube.com/embed/c_G3WH65rrk" target="ifr-video">Cum se fac vinilurile</a>
+          <a href="https://www.youtube.com/embed/Yd2SW-Fys6I" target="ifr-video">Cum funcționează CD-urile</a>
+          <a href="https://www.youtube.com/embed/Yd2SW-Fys6I" target="ifr-video">Video curent</a>
+        </div>
+
+        <iframe
+          name="ifr-video"
+          src="https://www.youtube.com/embed/Yd2SW-Fys6I"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <section id="events">
+      <h2>Evenimente</h2>
+      <ul>
+        <li>
+          <time datetime="2026-03-12T18:00">12 martie 2026, ora 18:00</time> —
+          <b>Listening Party Rock</b> — ascultăm albume clasice pe vinil, în limita locurilor.
+        </li>
+        <li>
+          <time datetime="2026-03-15T16:30">15 martie 2026, ora 16:30</time> —
+          <b>Ghid: primul pick-up</b> — ce înseamnă cartuș, ac, anti-skate și întreținere.
+        </li>
+        <li>
+          <time datetime="2026-03-18T12:00">18 martie 2026, ora 12:00</time> —
+          <b>Zi de evaluare discuri</b> — adu CD-uri/viniluri pentru estimare (orientativ).
+        </li>
+      </ul>
+    </section>
+
+    <section id="time-table">
+      <h2>Orar</h2>
+
+      <table id="tabel">
+        <caption>Program magazin (exemplu)</caption>
+
+        <thead>
+          <tr>
+            <th>Perioadă</th>
+            <th>Zi</th>
+            <th>Dimineața</th>
+            <th>Pauză</th>
+            <th>Seara</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td rowspan="5">Zile lucrătoare</td>
+            <td>Luni</td>
+            <td>10–12</td>
+            <td>12–14</td>
+            <td>14–20</td>
+          </tr>
+          <tr>
+            <td>Marți</td>
+            <td>9–12</td>
+            <td>12–14</td>
+            <td>14–21</td>
+          </tr>
+          <tr>
+            <td>Miercuri</td>
+            <td>9–11</td>
+            <td>11–13</td>
+            <td>14–21</td>
+          </tr>
+          <tr>
+            <td>Joi</td>
+            <td>9–11</td>
+            <td>11–13</td>
+            <td>14–21</td>
+          </tr>
+          <tr>
+            <td>Vineri</td>
+            <td>9–12</td>
+            <td>12–14</td>
+            <td>14–19</td>
+          </tr>
+          <tr>
+            <td rowspan="2">Weekend</td>
+            <td>Sâmbătă</td>
+            <td>10–12</td>
+            <td>12–13</td>
+            <td>13–16</td>
+          </tr>
+          <tr>
+            <td>Duminică</td>
+            <td>10–14</td>
+            <td>-</td>
+            <td>închis</td>
+          </tr>
+        </tbody>
+
+        <tfoot>
+          <tr>
+            <td colspan="5">În timpul sărbătorilor legale, fiecare ascultă muzica în casa lui :)</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+
+    <section id="faq">
+      <h2>Întrebări frecvente</h2>
+
+      <details>
+        <summary>De unde pasiunea pentru muzică?</summary>
+        <p>De obicei începe cu un album bun și continuă cu descoperirea de trupe și genuri.</p>
+      </details>
+
+      <details>
+        <summary>Cum încep să învăț despre trupe și genuri?</summary>
+        <p>Începe cu câteva albume reprezentative, apoi explorează label-uri și influențe.</p>
+      </details>
+
+      <details>
+        <summary>Cum aleg primul meu pick-up?</summary>
+        <p>Uită-te la buget, la tipul de ac/cartuș și la întreținere; cere recomandări în magazin.</p>
+      </details>
+    </section>
+
+    <section id="math">
+      <h2>Bonus: formulă (MathML)</h2>
+      <p>Un exemplu simplu pentru numărul de combinații gen–subgen:</p>
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+        <mrow>
+          <mi>Total</mi>
+          <mo>=</mo>
+          <mi>G</mi>
+          <mo>&#x00D7;</mo>
+          <mi>S</mi>
+        </mrow>
+      </math>
+    </section>
+
+  </main>
+
+  <footer>
+    <address>
+      Telefon: <a href="tel:+40700111222">+40 700 111 222</a><br>
+      Str. Exemplu nr. 10<br>
+      București, România<br>
+      <a href="https://www.google.com/maps/search/?api=1&query=Facultatea%20de%20Matematica%20si%20Informatica%20Universitatea%20din%20Bucuresti"
+         target="_blank" rel="noopener">Deschide locația pe Google Maps (FMI)</a><br>
+      E-mail: <a href="mailto:contact@magazindediscuri.ro">contact@magazindediscuri.ro</a><br>
+      WhatsApp: <a href="https://wa.me/40700111222" target="_blank" rel="noopener">Chat pe WhatsApp</a>
+    </address>
+
+    <p>
+      <small>&copy; <time datetime="2026-03-02">2 martie 2026</time> — Magazin de discuri București.</small>
+    </p>
+
+    <p><a href="#top">Înapoi la începutul paginii</a></p>
+  </footer>
+
+  <!-- Link top (cerință Etapa 2) -->
+  <a href="#top" id="link-top" aria-label="Înapoi sus">
+    <div id="triunghi"></div>
+  </a>
+
+</body>
+</html>
