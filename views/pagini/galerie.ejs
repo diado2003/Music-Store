@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <%- include("../fragmente/head", { titluPagina: "Galerie statica" }) %>
+</head>
+<body id="top">
+  <%- include("../fragmente/header", { ipClient: ipClient }) %>
+
+  <main>
+    <section id="galerie-statica">
+      <h2>Galerie statica</h2>
+      <p>Imaginile sunt incarcate din fisierul JSON al galeriei si afisate static in grila.</p>
+
+      <div id="grid-galerie">
+        <% imaginiGalerie.forEach(function(imagine){ %>
+          <figure>
+            <img src="<%= imagine.cale %>" alt="<%= imagine.descriere %>">
+            <figcaption><%= imagine.descriere %></figcaption>
+          </figure>
+        <% }) %>
+      </div>
+    </section>
+  </main>
+
+  <%- include("../fragmente/footer") %>
+</body>
+</html>

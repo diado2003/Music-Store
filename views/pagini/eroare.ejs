@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <%- include("../fragmente/head", { titluPagina: titlu }) %>
+</head>
+<body id="top">
+  <%- include("../fragmente/header", { ipClient: ipClient }) %>
+
+  <main>
+    <section>
+      <h2><%= titlu %></h2>
+      <p><%= text %></p>
+      <% if (imagine) { %>
+        <img src="<%= imagine %>" alt="Imagine eroare" style="max-width: 420px; margin-top: 1rem;">
+      <% } %>
+    </section>
+  </main>
+
+  <%- include("../fragmente/footer") %>
+</body>
+</html>

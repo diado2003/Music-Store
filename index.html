@@ -26,6 +26,7 @@
 
   <!--  (goth pink x black) -->
   <link rel="stylesheet" href="resurse/css/etapa2.css">
+  <link rel="stylesheet" href="resurse/css/nav.css">
 </head>
 
 <body id="top">
@@ -33,9 +34,17 @@
     <h1>Magazin de discuri — Viniluri și CD-uri</h1>
 
     <nav aria-label="Navigare principală">
-      <ul>
+      <input type="checkbox" id="ch-menu" aria-label="Comută meniul">
+      <label id="hamburger" for="ch-menu" aria-label="Deschide meniul" role="button" tabindex="0">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </label>
+
+      <ul class="menu">
         <li>
-          <a href="index.html">Acasă</a>
+          <a id="acasa" href="index.html">Acasă</a>
+          <a id="acasa-mediu" href="index.html" aria-label="Acasă"><i class="fa-solid fa-house"></i></a>
           <ul>
             <li><a href="#welcome">Bine ai venit</a></li>
             <li><a href="#promotions">Promoții</a></li>

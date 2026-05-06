@@ -1,0 +1,65 @@
+$primary: #8a1f5b;
+$secondary: #214f3e;
+$danger: #c0392b;
+$warning: #f39c12;
+$info: #2d6a9f;
+$light: #f7f2ff;
+$dark: #120a1a;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "danger": $danger,
+  "warning": $warning,
+  "info": $info,
+  "light": $light,
+  "dark": $dark,
+  "metal": #50326e,
+  "vinyl": #0f5a47
+);
+
+$body-bg: #0a0611;
+$body-color: #f3eefd;
+$headings-color: #ff9bd8;
+$link-color: #ff7ac8;
+$link-hover-color: #ffd1f0;
+
+$font-family-sans-serif: "Inter", "Segoe UI", Tahoma, sans-serif;
+$font-family-base: $font-family-sans-serif;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 820px,
+  lg: 1150px,
+  xl: 1320px,
+  xxl: 1540px
+);
+
+$container-max-widths: (
+  sm: 560px,
+  md: 780px,
+  lg: 1080px,
+  xl: 1260px,
+  xxl: 1480px
+);
+
+$border-radius: 0.85rem;
+$border-radius-lg: 1.1rem;
+$border-radius-sm: 0.5rem;
+
+$h1-font-size: 2.7rem;
+$h2-font-size: 2rem;
+$h3-font-size: 1.65rem;
+$h4-font-size: 1.35rem;
+$h5-font-size: 1.15rem;
+$h6-font-size: 1rem;
+
+$btn-border-radius: 999px;
+$btn-padding-x: 1.05rem;
+$btn-font-weight: 700;
+$card-bg: #160f21;
+$card-border-color: rgba(255, 122, 200, 0.3);
+$card-cap-bg: rgba(255, 122, 200, 0.15);
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
