@@ -13,25 +13,52 @@
 
     <ul class="menu">
       <li>
-        <a id="acasa" href="/">Acasa</a>
+        <a id="acasa" href="/"><i class="fa-solid fa-house"></i><span>Acasa</span></a>
         <a id="acasa-mediu" href="/" aria-label="Acasa"><i class="fa-solid fa-house"></i></a>
         <ul>
           <li><a href="/#welcome">Bine ai venit</a></li>
+          <li><a href="/#time-table">Tabel</a></li>
+          <li><a href="/#events">Calendar</a></li>
           <li><a href="/#promotions">Promotii</a></li>
-          <li><a href="/#products">Produse</a></li>
+          <li><a href="/#utilizatori">Utilizatori</a></li>
+          <li><a href="/#statistici">Statistici</a></li>
+          <li><a href="/#server">Server</a></li>
           <li><a href="/#interesting-facts">Info si video</a></li>
-          <li><a href="/#events">Evenimente</a></li>
-          <li><a href="/#time-table">Orar</a></li>
-          <li><a href="/#faq">FAQ</a></li>
-          <li><a href="/#tabel">Tabel</a></li>
-          <li><a href="/#math">MathML</a></li>
         </ul>
       </li>
-      <li><a href="/despre">Despre</a></li>
-      <li><a href="/galerie">Galerie</a></li>
-      <li><a href="/promotii">Promotii</a></li>
-      <li><a href="/resurse">Resurse</a></li>
-      <li><a href="/contact">Contact</a></li>
+      <li><a href="/despre"><i class="fa-solid fa-circle-info"></i><span>Despre</span></a></li>
+      <li>
+        <a href="/produse"><i class="fa-solid fa-record-vinyl"></i><span>Produse</span></a>
+        <ul>
+          <li><a href="/produse">Toate</a></li>
+          <% if (typeof categoriiProduse !== "undefined") { categoriiProduse.forEach(function(categorie){ %>
+            <li><a href="/produse?categorie=<%= encodeURIComponent(categorie) %>"><%= categorie %></a></li>
+          <% }) } %>
+        </ul>
+      </li>
+      <li>
+        <a href="/galerie"><i class="fa-solid fa-images"></i><span>Galerii</span></a>
+        <ul>
+          <li><a href="/galerie">Galerie statica</a></li>
+          <li><a href="/galerie#galerie-animata">Galerie animata</a></li>
+        </ul>
+      </li>
+      <li><a href="/promotii"><i class="fa-solid fa-tags"></i><span>Promotii</span></a></li>
+      <li><a href="/resurse"><i class="fa-solid fa-folder-open"></i><span>Resurse</span></a></li>
+      <li><a href="/contact"><i class="fa-solid fa-envelope"></i><span>Contact</span></a></li>
     </ul>
   </nav>
+
+  <div class="selector-tema">
+    <label class="form-label" for="select-tema">
+      <i class="fa-solid fa-moon" aria-hidden="true"></i>
+      <span>Tema</span>
+    </label>
+    <select id="select-tema" class="form-select form-select-sm" aria-label="Alege tema site-ului">
+      <option value="dark">Dark</option>
+      <option value="light">Light</option>
+      <option value="concert">Concert</option>
+      <option value="studio">Studio</option>
+    </select>
+  </div>
 </header>

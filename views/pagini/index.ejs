@@ -4,12 +4,12 @@
   <%- include("../fragmente/head", { titluPagina: "Magazin de discuri - Acasa" }) %>
 </head>
 <body id="top">
-  <%- include("../fragmente/header", { ipClient: ipClient }) %>
+  <%- include("../fragmente/header", { ipClient: ipClient, categoriiProduse: categoriiProduse }) %>
 
   <main>
     <section id="welcome">
       <hgroup>
-        <h2>Bine ai venit!</h2>
+        <h2 class="titlu-reflexie" data-text="Bine ai venit!">Bine ai venit!</h2>
         <p>Viniluri si CD-uri in Bucuresti pentru colectionari si incepatori</p>
       </hgroup>
 
@@ -34,6 +34,8 @@
         <dd>Termen folosit pentru redare audio de calitate (fidelitate ridicata).</dd>
       </dl>
     </section>
+
+    <hr class="separator-muzical">
 
     <section id="mesaj-animat" aria-label="Mesaj animat">
       <p class="ticker">Noutate: sambata avem auditii demonstrative pe pickup cu intrare gratuita.</p>
@@ -100,8 +102,12 @@
       <div id="grid-galerie">
         <% imaginiGalerie.forEach(function(imagine){ %>
           <figure>
-            <img src="<%= imagine.cale %>" alt="<%= imagine.descriere %>">
-            <figcaption><%= imagine.descriere %></figcaption>
+            <picture>
+              <source media="(max-width: 700px)" srcset="<%= imagine.caleMica || imagine.cale %>">
+              <source media="(max-width: 1000px)" srcset="<%= imagine.caleMedie || imagine.cale %>">
+              <img src="<%= imagine.cale %>" alt="<%= imagine.alt || imagine.titlu || imagine.descriere %>" title="<%= imagine.descriere %>">
+            </picture>
+            <figcaption><%= imagine.titlu || imagine.descriere %></figcaption>
           </figure>
         <% }) %>
       </div>
@@ -129,6 +135,7 @@
 
     <section id="events">
       <h2>Evenimente</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer agenda pentru auditii si lansari va fi actualizata saptamanal.</p>
       <ul>
         <li><time datetime="2026-03-12T18:00">12 martie 2026, ora 18:00</time> - <b>Listening Party Rock</b></li>
         <li><time datetime="2026-03-15T16:30">15 martie 2026, ora 16:30</time> - <b>Ghid: primul pick-up</b></li>
@@ -169,8 +176,28 @@
             <td>11-13</td>
             <td>14-21</td>
           </tr>
+          <tr>
+            <td>Joi</td>
+            <td colspan="2">10-15</td>
+            <td>15-20</td>
+          </tr>
         </tbody>
       </table>
+    </section>
+
+    <section id="utilizatori">
+      <h2>Utilizatori online</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus, iar lista de utilizatori conectati va fi afisata aici.</p>
+    </section>
+
+    <section id="statistici">
+      <h2>Date utilizator si statistici</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi metricile despre cos, cautari si preferinte vor fi sumarizate aici.</p>
+    </section>
+
+    <section id="server">
+      <h2>Date site si server</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Uptime, versiune server si status resurse vor fi afisate in aceasta zona.</p>
     </section>
 
     <section id="tabel-responsive">
@@ -239,16 +266,25 @@
     </section>
 
     <section id="video-fundal">
-      <video autoplay muted loop playsinline>
+      <video controls preload="auto" poster="/resurse/imagini/metal_band2.jpg">
+        <source src="/resurse/video/BATMETAL.webm" type="video/webm">
         <source src="/resurse/video/BATMETAL.mp4" type="video/mp4">
+        <track kind="subtitles" src="/resurse/video/tracks/my_captions_ro.vtt" srclang="ro" label="Romana" default>
+        <track kind="subtitles" src="/resurse/video/tracks/my_captions-en.vtt" srclang="en" label="English">
       </video>
       <div class="overlay-video">
         <h2>Wall Of Sound</h2>
         <p>Un fundal video responsive, folosit ca accent vizual pentru atmosfera magazinului.</p>
       </div>
     </section>
+
+    <section id="duotone">
+      <h2>Colectie recomandata</h2>
+      <div class="imagine-duotone" role="img" aria-label="Viniluri si trupe rock"></div>
+    </section>
   </main>
 
   <%- include("../fragmente/footer") %>
 </body>
 </html>
+

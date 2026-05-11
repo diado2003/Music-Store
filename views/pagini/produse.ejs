@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <%- include("../fragmente/head", { titluPagina: "Produse - Magazin de discuri" }) %>
+  <link rel="stylesheet" href="/resurse/css/produse.css">
+  <script src="/resurse/js/produse.js" defer></script>
+</head>
+<body id="top">
+  <%- include("../fragmente/header", { ipClient: ipClient, categoriiProduse: categoriiProduse }) %>
+
+  <main class="container-fluid pagina-produse">
+    <section class="sectiune-filtre">
+      <h2>Produse<% if (categorieSelectata) { %> - <%= categorieSelectata %><% } %></h2>
+      <p class="sursa-produse">Sursa produse: <%= sursaProduse || "json" %></p>
+
+      <section id="controale-produse" class="row g-3 align-items-end" aria-label="Filtre produse">
+        <div class="col-12 col-md-6 col-xl-3">
+          <label for="<%= filtreProduse.descriere.id %>" class="form-label"><%= filtreProduse.descriere.label %></label>
+          <input id="<%= filtreProduse.descriere.id %>" type="text" class="form-control form-control-lg" placeholder="<%= filtreProduse.descriere.placeholder %>">
+          <div class="invalid-feedback">Foloseste doar litere, spatii sau cratima.</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <label for="<%= filtreProduse.producator.id %>" class="form-label"><%= filtreProduse.producator.label %></label>
+          <input id="<%= filtreProduse.producator.id %>" type="text" class="form-control form-control-lg" list="lista-producatori" placeholder="<%= filtreProduse.producator.placeholder %>">
+          <datalist id="lista-producatori">
+            <% filtreProduse.producator.optiuni.forEach(function(producator){ %>
+              <option value="<%= producator %>"></option>
+            <% }) %>
+          </datalist>
+        </div>
+
+        <div class="col-12 col-xl-3">
+          <label for="<%= filtreProduse.pret.id %>" class="form-label"><%= filtreProduse.pret.label %></label>
+          <div class="d-flex align-items-center gap-2">
+            <span><%= filtreProduse.pret.min %></span>
+            <input id="<%= filtreProduse.pret.id %>" type="range" class="form-range" min="<%= filtreProduse.pret.min %>" max="<%= filtreProduse.pret.max %>" value="<%= filtreProduse.pret.valoare %>">
+            <span><%= filtreProduse.pret.max %></span>
+            <span>(<span id="infoRange"><%= filtreProduse.pret.valoare %></span>)</span>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-3">
+          <span class="form-label d-block"><%= filtreProduse.format.label %></span>
+          <div class="btn-group flex-wrap" role="group" aria-label="Filtru format">
+            <input type="radio" class="btn-check" name="<%= filtreProduse.format.name %>" id="format-toate" value="toate" checked>
+            <label class="btn btn-outline-primary" for="format-toate">Oricare</label>
+            <% filtreProduse.format.optiuni.forEach(function(format){ %>
+              <input type="radio" class="btn-check" name="<%= filtreProduse.format.name %>" id="format-<%= format %>" value="<%= format %>">
+              <label class="btn btn-outline-primary" for="format-<%= format %>"><%= format %></label>
+            <% }) %>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="form-floating">
+            <textarea id="<%= filtreProduse.nume.id %>" class="form-control" placeholder="<%= filtreProduse.nume.placeholder %>" style="height: 6rem"></textarea>
+            <label for="<%= filtreProduse.nume.id %>"><%= filtreProduse.nume.label %></label>
+            <div class="invalid-feedback">Numele poate contine doar litere, cifre, spatii si cratima.</div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <label for="<%= filtreProduse.culoare.id %>" class="form-label"><%= filtreProduse.culoare.label %></label>
+          <select id="<%= filtreProduse.culoare.id %>" class="form-select form-select-lg">
+            <option value="oricare">Oricare</option>
+            <% filtreProduse.culoare.optiuni.forEach(function(culoare){ %>
+              <option value="<%= culoare %>"><%= culoare %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <label for="<%= filtreProduse.caracteristici.id %>" class="form-label"><%= filtreProduse.caracteristici.label %></label>
+          <select id="<%= filtreProduse.caracteristici.id %>" class="form-select" multiple size="3">
+            <% filtreProduse.caracteristici.optiuni.forEach(function(caracteristica){ %>
+              <option value="<%= caracteristica %>"><%= caracteristica %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="col-12 col-lg-3">
+          <input type="checkbox" class="btn-check" id="<%= filtreProduse.noutati.id %>" data-data-referinta="<%= filtreProduse.noutati.dataReferinta %>" autocomplete="off">
+          <label class="btn btn-outline-primary btn-lg" for="<%= filtreProduse.noutati.id %>"><%= filtreProduse.noutati.label %></label>
+        </div>
+
+        <div class="col-12 col-lg-9">
+          <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+            <button id="filtrare" type="button" class="btn btn-primary btn-lg">
+              <i class="bi bi-funnel-fill" aria-hidden="true"></i>
+              <span class="text-buton">filtreaza</span>
+            </button>
+            <button id="sortCrescNume" type="button" class="btn btn-secondary btn-lg">
+              <i class="bi bi-sort-alpha-down" aria-hidden="true"></i>
+              <span class="text-buton">Sort ascendent</span>
+            </button>
+            <button id="sortDescrescNume" type="button" class="btn btn-secondary btn-lg">
+              <i class="bi bi-sort-alpha-up-alt" aria-hidden="true"></i>
+              <span class="text-buton">Sort descendent</span>
+            </button>
+            <button id="calculeaza" type="button" class="btn btn-info btn-lg">
+              <i class="bi bi-calculator" aria-hidden="true"></i>
+              <span class="text-buton">Calculeaza</span>
+            </button>
+            <button id="resetare" type="button" class="btn btn-outline-primary btn-lg">
+              <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+              <span class="text-buton">Resetare</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <p id="mesaj-validare" class="alert alert-warning mt-3 mb-0 d-none"></p>
+      <p id="rezultat-filtrare" class="mt-3 mb-0 text-secondary-emphasis">Produse afisate: <%= produse.length %></p>
+    </section>
+
+    <section id="produse" class="grid-produse">
+      <% produse.forEach(function(produs){ %>
+        <article id="artc-<%= produs.id %>" class="produs <%= produs.categorie_mare %>"
+          data-id="<%= produs.id %>"
+          data-nume="<%= produs.nume %>"
+          data-descriere="<%= produs.descriere %>"
+          data-format="<%= produs.format %>"
+          data-pret="<%= produs.pret %>"
+          data-durata="<%= produs.durata_minute %>"
+          data-data="<%= produs.data_adaugare %>"
+          data-culoare="<%= produs.culoare %>"
+          data-caracteristici="<%= produs.caracteristici %>"
+          data-voucher="<%= produs.admite_voucher %>"
+          data-producator="<%= produs.producator %>">
+          <h3><a href="/produs/<%= produs.id %>"><%= produs.nume %></a></h3>
+          <div class="corp-produs">
+            <div class="coloana-produs media-produs">
+              <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+              <ul class="lista-caracteristici">
+                <li><strong>Durata:</strong> <span><%= produs.durata_minute %> minute</span></li>
+                <li><strong>Format:</strong> <span><%= produs.format %></span></li>
+                <li><strong>Caracteristici:</strong> <span><%= produs.caracteristici %></span></li>
+                <li><strong>Data adaugare:</strong> <time datetime="<%= produs.data_adaugare %>"><%= formatDataRo(produs.data_adaugare) %></time></li>
+                <li><strong>Voucher:</strong> <span><%= produs.admite_voucher ? "da" : "nu" %></span></li>
+              </ul>
+            </div>
+            <div class="coloana-produs detalii-produs">
+              <p class="categorie-produs"><strong>Categorie:</strong> <%= produs.categorie_mare %></p>
+              <p><strong>Pret:</strong> <span class="val-pret"><%= produs.pret %></span> RON</p>
+              <p><strong>Culoare:</strong> <%= produs.culoare %></p>
+              <p><%= produs.descriere %></p>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </section>
+  </main>
+
+  <%- include("../fragmente/footer") %>
+</body>
+</html>
+

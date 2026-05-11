@@ -1,225 +1,225 @@
+nav .menu li a {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: var(--inaltime-meniu);
+  line-height: 1.2;
+  padding: 0 0.75rem;
+  text-decoration: none;
+  color: var(--menu-text);
+  font-weight: 700;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
 nav {
   --inaltime-meniu: 2.8rem;
-  --latime-buton: 10.5rem;
-  --menu-bg: #150f1f;
-  --menu-border: rgba(255, 58, 167, 0.45);
-  --menu-text: #f9ecff;
-  --menu-hover: #2a1838;
-  --menu-active: #ff7ac8;
+  --latime-buton: 10.4rem;
+  --menu-bg: var(--fundal-suprafata);
+  --menu-border: var(--border-principal);
+  --menu-text: var(--text-principal);
+  --menu-hover: var(--fundal-suprafata-2);
+  --menu-active: var(--culoare-principala);
   --hamburger-size: 2.4rem;
   --bar-height: 0.2rem;
-  --bar-color: #f4effb;
-  --bar-color-end: #ff7ac8;
+  --bar-color: var(--text-principal);
+  --bar-color-end: var(--accent-auriu);
   position: relative;
 }
-
-#ch-menu {
+nav #ch-menu,
+nav #hamburger,
+nav #acasa-mediu {
   display: none;
 }
-
-#hamburger {
-  display: none;
-}
-
-#acasa-mediu {
-  display: none;
-}
-
-.menu,
-.menu ul {
+nav .menu,
+nav .menu ul {
   list-style: none;
   margin: 0;
   padding: 0;
   background: var(--menu-bg);
 }
-
-.menu {
+nav .menu {
   display: flex;
   flex-wrap: wrap;
 }
-
-.menu > li {
+nav .menu li {
   position: relative;
+}
+nav .menu li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 0.28rem;
+  background: linear-gradient(90deg, var(--fundal-pagina), var(--accent-auriu), var(--fundal-pagina));
+  opacity: 0;
+  transition: bottom 0.45s ease, opacity 0.45s ease;
+}
+nav .menu li:hover > a {
+  background: var(--menu-hover);
+  color: var(--menu-active);
+}
+nav .menu li:hover > a::after {
+  bottom: 0;
+  opacity: 1;
+}
+nav .menu li > ul {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  min-width: 100%;
+  width: max-content;
+  opacity: 0;
+  transform: translateX(-50%) scale(0);
+  transform-origin: center;
+  pointer-events: none;
+  z-index: 30;
+  transition: transform 0.42s ease, opacity 0.42s ease;
+}
+nav .menu li > ul li {
+  border: 1px solid var(--menu-border);
+  border-top: 0;
+}
+nav .menu li > ul li a {
+  min-height: 2.45rem;
+  justify-content: flex-start;
+}
+nav .menu li > ul li:hover > a {
+  background: var(--culoare-principala);
+  color: var(--fundal-pagina);
+}
+nav .menu li:hover > ul {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
+}
+nav .menu > li {
   width: var(--latime-buton);
   min-height: var(--inaltime-meniu);
   border: 1px solid var(--menu-border);
 }
 
-.menu li a {
-  display: block;
-  min-height: var(--inaltime-meniu);
-  line-height: var(--inaltime-meniu);
-  padding: 0 0.75rem;
-  text-decoration: none;
-  color: var(--menu-text);
-  font-weight: 700;
-  transition: background-color 0.35s ease, color 0.35s ease;
-}
-
-.menu li:hover > a {
-  background: var(--menu-hover);
-  color: var(--menu-active);
-}
-
-.menu li > ul {
-  position: absolute;
-  left: 0;
-  top: 100%;
-  min-width: 100%;
-  display: none;
-  opacity: 0;
-  transform: scaleY(0.15);
-  transform-origin: 50% 0;
-  z-index: 30;
-}
-
-.menu li:hover > ul {
-  display: block;
-  animation: animatie-submeniu 0.4s ease forwards;
-}
-
-.menu li > ul li {
-  width: 100%;
-  border: 1px solid var(--menu-border);
-  border-top: 0;
-}
-
-.menu li > ul a {
-  min-height: 2.4rem;
-  line-height: 2.4rem;
-  padding-left: 1rem;
-}
-
-@keyframes animatie-submeniu {
-  0% {
-    opacity: 0;
-    transform: scaleY(0.15);
-  }
-  60% {
-    opacity: 0.9;
-    transform: scaleY(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: scaleY(1);
-  }
-}
 @media (max-width: 1000px) {
   nav {
-    --latime-buton: 8.5rem;
+    --latime-buton: 4.1rem;
   }
-  #acasa {
+  nav .menu > li > a {
+    justify-content: center;
+    font-size: 0.95rem;
+  }
+  nav .menu > li > a span {
     display: none;
   }
-  #acasa-mediu {
-    display: block;
-    text-align: center;
+  nav #acasa {
+    display: none;
+  }
+  nav #acasa-mediu {
+    display: flex;
+    justify-content: center;
   }
 }
 @media (max-width: 700px) {
-  #hamburger {
+  nav #hamburger {
     width: var(--hamburger-size);
     height: var(--hamburger-size);
     border: 1px solid var(--menu-border);
-    border-radius: 0.6rem;
+    border-radius: 0.5rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     position: relative;
     cursor: pointer;
     margin-bottom: 0.35rem;
-    background: rgba(255, 58, 167, 0.05);
+    background: rgba(29, 185, 84, 0.08);
   }
-  #hamburger .bar {
+  nav #hamburger .bar {
     position: absolute;
     left: 0.45rem;
     width: calc(var(--hamburger-size) - 0.9rem);
     height: var(--bar-height);
     border-radius: 999px;
     background: var(--bar-color);
-    opacity: 0.85;
-    transform: translateX(0) rotate(0deg) scaleX(1);
-    animation: animatie-bare-aparitie 0.85s ease both;
   }
-  #hamburger .bar:nth-child(1) {
+  nav #hamburger .bar:nth-child(1) {
     top: 0.62rem;
   }
-  #hamburger .bar:nth-child(2) {
+  nav #hamburger .bar:nth-child(2) {
     top: calc(50% - var(--bar-height) / 2);
   }
-  #hamburger .bar:nth-child(3) {
+  nav #hamburger .bar:nth-child(3) {
     bottom: 0.62rem;
   }
-  #hamburger .bar:nth-child(1) {
+  nav #hamburger .bar:nth-child(1) {
     animation-delay: 0ms;
   }
-  #hamburger .bar:nth-child(2) {
-    animation-delay: 300ms;
+  nav #hamburger .bar:nth-child(2) {
+    animation-delay: 180ms;
   }
-  #hamburger .bar:nth-child(3) {
-    animation-delay: 600ms;
+  nav #hamburger .bar:nth-child(3) {
+    animation-delay: 360ms;
   }
-  .menu {
+  nav .menu {
+    display: block;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    clip-path: circle(0 at 0 0);
+    transition: max-height 0.5s ease, clip-path 0.5s ease;
+  }
+  nav .menu > li,
+  nav .menu > li > ul li {
+    width: 100%;
+  }
+  nav .menu li a {
+    justify-content: flex-start;
+  }
+  nav .menu li a span {
+    display: inline;
+  }
+  nav .menu li a::after {
     display: none;
-    width: 100%;
-    animation: animatie-meniu-mobil 0.5s ease forwards;
   }
-  #ch-menu:checked ~ .menu {
-    display: block;
-  }
-  .menu > li,
-  .menu > li > ul li {
-    width: 100%;
-  }
-  .menu li > ul {
+  nav .menu li > ul {
     position: static;
-    display: block;
+    width: 100%;
+    opacity: 1;
     transform: none;
-    opacity: 1;
+    pointer-events: auto;
+    clip-path: circle(0 at 0 0);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease, clip-path 0.45s ease;
   }
-  .menu li:hover > ul {
-    animation: none;
+  nav .menu li:hover > ul {
+    max-height: 40rem;
+    clip-path: circle(150% at 0 0);
   }
-  #ch-menu:checked + #hamburger .bar {
-    animation: none;
+  nav .menu li:hover > a {
+    background: var(--culoare-principala);
+    color: var(--fundal-pagina);
+  }
+  nav #ch-menu:checked ~ .menu {
+    max-height: 80rem;
+    clip-path: circle(150% at 0 0);
+  }
+  nav #ch-menu:checked + #hamburger .bar {
     background: var(--bar-color-end);
-    opacity: 1;
   }
-  #ch-menu:checked + #hamburger .bar:nth-child(1) {
-    transform: translateY(0.52rem) rotate(45deg) scaleX(1.08);
+  nav #ch-menu:checked + #hamburger .bar:nth-child(1) {
+    transform: translateY(0.52rem) rotate(45deg);
   }
-  #ch-menu:checked + #hamburger .bar:nth-child(2) {
+  nav #ch-menu:checked + #hamburger .bar:nth-child(2) {
     opacity: 0;
-    transform: scaleX(0.2);
   }
-  #ch-menu:checked + #hamburger .bar:nth-child(3) {
-    transform: translateY(-0.52rem) rotate(-45deg) scaleX(1.08);
+  nav #ch-menu:checked + #hamburger .bar:nth-child(3) {
+    transform: translateY(-0.52rem) rotate(-45deg);
   }
-}
-@keyframes animatie-bare-aparitie {
-  0% {
-    opacity: 0;
-    background: #ffffff;
-    transform: translateX(-1.25rem) rotate(-20deg) scaleX(0.45);
+  nav #acasa {
+    display: none;
   }
-  45% {
-    opacity: 0.55;
-    background: #a7dbff;
-    transform: translateX(0.35rem) rotate(10deg) scaleX(1.08);
-  }
-  100% {
-    opacity: 0.85;
-    background: var(--bar-color-end);
-    transform: translateX(0) rotate(0deg) scaleX(1);
-  }
-}
-@keyframes animatie-meniu-mobil {
-  0% {
-    opacity: 0;
-    transform: translateY(-0.5rem);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
+  nav #acasa-mediu {
+    display: flex;
   }
 }

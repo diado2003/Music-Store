@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <%- include("../fragmente/head", { titluPagina: produs.nume }) %>
+  <link rel="stylesheet" href="/resurse/css/produse.css">
+</head>
+<body id="top">
+  <%- include("../fragmente/header", { ipClient: ipClient, categoriiProduse: categoriiProduse }) %>
+
+  <main class="container pagina-produs-unic">
+    <article id="artc-<%= produs.id %>" class="produs-unic <%= produs.categorie_mare %>">
+      <h2><%= produs.nume %></h2>
+      <div class="corp-produs">
+        <div class="coloana-produs media-produs">
+          <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+        </div>
+        <div class="coloana-produs detalii-produs">
+          <p><strong>Cod:</strong> <%= produs.cod %></p>
+          <p><strong>Categorie:</strong> <%= produs.categorie_mare %></p>
+          <p><strong>Format:</strong> <%= produs.format %></p>
+          <p><strong>Pret:</strong> <%= produs.pret %> RON</p>
+          <p><strong>Durata:</strong> <%= produs.durata_minute %> minute</p>
+          <p><strong>Data adaugare:</strong> <time datetime="<%= produs.data_adaugare %>"><%= formatDataRo(produs.data_adaugare) %></time></p>
+          <p><strong>Culoare:</strong> <%= produs.culoare %></p>
+          <p><strong>Caracteristici:</strong> <%= produs.caracteristici %></p>
+          <p><strong>Admite voucher:</strong> <%= produs.admite_voucher ? "da" : "nu" %></p>
+          <p><strong>Stoc:</strong> <%= produs.stoc %> bucati</p>
+          <p><strong>Producator:</strong> <%= produs.producator %></p>
+          <p><strong>Greutate:</strong> <%= produs.greutate_g %> g</p>
+          <p><strong>Descriere:</strong> <%= produs.descriere %></p>
+          <p><a class="btn btn-primary" href="/produse">Inapoi la produse</a></p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <%- include("../fragmente/footer") %>
+</body>
+</html>
+

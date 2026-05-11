@@ -1,130 +1,174 @@
-window.addEventListener("load", function(){
-        document.getElementById("inp-pret").onchange=function(){
-            document.getElementById("infoRange").innerHTML=`(${this.value})`
-        } 
-    
-    //this.document.getElementById("filtrare").addEventListener("load", function(){})
-        document.getElementById("filtrare").onclick= function(){
-            let inpNume= document.getElementById("inp-nume").value.toLowerCase().trim()
-        
-            let vRadio=document.getElementsByName("gr_rad")
-            let inpCalorii;
-            for(let r of vRadio){
-                if(r.checked){
-                    inpCalorii=r.value;
-                    break;
-                }
-            }
+window.addEventListener("DOMContentLoaded", function () {
+  const inpDescriere = document.getElementById("inp-descriere");
+  const inpProducator = document.getElementById("inp-producator");
+  const inpPret = document.getElementById("inp-pret");
+  const infoRange = document.getElementById("infoRange");
+  const inpNume = document.getElementById("inp-nume");
+  const inpCuloare = document.getElementById("inp-culoare");
+  const inpCaracteristici = document.getElementById("inp-caracteristici");
+  const inpNoutati = document.getElementById("inp-noutati");
+  const mesajValidare = document.getElementById("mesaj-validare");
+  const rezultatFiltrare = document.getElementById("rezultat-filtrare");
+  const containerProduse = document.getElementById("produse");
+  const produse = Array.from(document.getElementsByClassName("produs"));
+  const ordineInitiala = [...produse];
+  const dataNoutati = new Date(`${inpNoutati.dataset.dataReferinta || "2026-05-01"}T00:00:00`);
 
-            let minCalorii, maxCalorii
-            if(inpCalorii!="toate"){
-                let aux=inpCalorii.split(":")
-                minCalorii=parseInt(aux[0])
-                maxCalorii=parseInt(aux[1])
+  function formatSelectat() {
+    return document.querySelector('input[name="gr_format"]:checked')?.value || "toate";
+  }
 
-            }
+  function valoriSelectateMultiplu(select) {
+    return Array.from(select.selectedOptions).map((opt) => opt.value.toLowerCase());
+  }
 
-            let inpPret= parseInt(document.getElementById("inp-pret").value)
+  function textSimpluValid(text) {
+    return /^[a-zA-ZăâîșțĂÂÎȘȚ -]*$/.test(text);
+  }
 
-            let inpCateg=document.getElementById("inp-categorie").value.toLowerCase().trim()
-    
-            produse= document.getElementsByClassName("produs");
-            for(let produs of produse){
+  function numeValid(text) {
+    return /^[a-zA-Z0-9ăâîșțĂÂÎȘȚ -]*$/.test(text);
+  }
 
-                let valNume=produs.getElementsByClassName("val-nume")[0].innerHTML.toLowerCase().trim()
-                let cond1= valNume.startsWith(inpNume)
+  function seteazaMesaj(text) {
+    mesajValidare.textContent = text;
+    mesajValidare.classList.toggle("d-none", !text);
+  }
 
-                let valCalorii=parseInt(produs.getElementsByClassName("val-calorii")[0].innerHTML)
-                let cond2=(inpCalorii=="toate"|| (minCalorii<=valCalorii && valCalorii<maxCalorii))
+  function valideazaInputuri() {
+    const descriere = inpDescriere.value.trim();
+    const nume = inpNume.value.trim();
+    const descriereOk = textSimpluValid(descriere);
+    const numeOk = numeValid(nume);
 
-                let valPret=parseFloat(produs.getElementsByClassName("val-pret")[0].innerHTML)
-                let cond3=(valPret>inpPret)
+    inpDescriere.classList.toggle("is-invalid", !descriereOk);
+    inpNume.classList.toggle("is-invalid", !numeOk);
 
-                let valCateg=produs.getElementsByClassName("val-categorie")[0].innerHTML.toLowerCase().trim()
-                let cond4=(inpCateg=="toate" || inpCateg==valCateg)
+    if (!descriereOk) {
+      seteazaMesaj("Cuvantul cautat in descriere nu trebuie sa contina cifre sau simboluri.");
+      return false;
+    }
+    if (!numeOk) {
+      seteazaMesaj("Filtrul pentru nume poate contine doar litere, cifre, spatii si cratima.");
+      return false;
+    }
+    seteazaMesaj("");
+    return true;
+  }
 
-                if(cond1 && cond2 && cond3 && cond4){
-                    produs.style.display="block";
-                }
-                else{
-                    produs.style.display="none";
+  function produsVizibil(produs) {
+    const nume = produs.dataset.nume.toLowerCase();
+    const descriere = produs.dataset.descriere.toLowerCase();
+    const format = produs.dataset.format;
+    const pret = Number(produs.dataset.pret);
+    const culoare = produs.dataset.culoare;
+    const caracteristici = produs.dataset.caracteristici.toLowerCase();
+    const producator = produs.dataset.producator.toLowerCase();
+    const dataAdaugare = new Date(`${produs.dataset.data}T00:00:00`);
 
-                }
-            }
-        }  
-        document.getElementById("resetare").onclick= function(){
-                
-            document.getElementById("inp-nume").value="";
-            
-            document.getElementById("inp-pret").value=document.getElementById("inp-pret").min;
-            document.getElementById("inp-categorie").value="toate";
-            document.getElementById("i_rad4").checked=true;
-            var produse=document.getElementsByClassName("produs");
-            document.getElementById("infoRange").innerHTML="(0)";
-            for (let prod of produse){
-                prod.style.display="block";
-            }
-        }  
-        
-        function sorteaza(semn){
-            var produse=document.getElementsByClassName("produs");
-             var v_produse=Array.from(produse)
-             v_produse.sort(function(a,b){
-                 let pret_a=parseInt(a.getElementsByClassName("val-pret")[0].innerHTML)
-                 let pret_b=parseInt(b.getElementsByClassName("val-pret")[0].innerHTML)
-                 if(pret_a==pret_b){
-                     let nume_a=a.getElementsByClassName("val-nume")[0].innerHTML
-                     let nume_b=b.getElementsByClassName("val-nume")[0].innerHTML
-                     return semn*nume_a.localeCompare(nume_b);
-                 }
-                 return semn*pret_a-pret_b;
- 
-             })
-             for(let prod of v_produse){
-                 prod.parentNode.appendChild(prod);
-             }
-         
-         }
-        
-        
-        document.getElementById("sortCrescNume").onclick= function(){
-            sorteaza(1);
-        }
-        document.getElementById("sortDescrescNume").onclick= function(){
-            sorteaza(-1);
-        }
+    const condNume = nume.startsWith(inpNume.value.toLowerCase().trim());
+    const condDescriere = descriere.includes(inpDescriere.value.toLowerCase().trim());
+    const condProducator = !inpProducator.value.trim() || producator === inpProducator.value.toLowerCase().trim();
+    const condFormat = formatSelectat() === "toate" || formatSelectat() === format;
+    const condPret = pret <= Number(inpPret.value);
+    const condCuloare = inpCuloare.value === "oricare" || inpCuloare.value === culoare;
+    const selectate = valoriSelectateMultiplu(inpCaracteristici);
+    const condCaracteristici = selectate.length === 0 || selectate.every((val) => caracteristici.includes(val));
+    const condNoutati = !inpNoutati.checked || dataAdaugare >= dataNoutati;
 
+    return condNume && condDescriere && condProducator && condFormat && condPret && condCuloare && condCaracteristici && condNoutati;
+  }
 
-        window.onkeydown=function(e){
-            if(e.key=="c" && e.altKey){
-                var suma=0;
-                var produse=document.getElementsByClassName("produs");
-                for(let produs of produse){
-                    var stil=getComputedStyle(produs)
-                    if(stil.display!="none"){
-                        suma+=parseFloat(produs.getElementsByClassName("val-pret")[0].innerHTML)
-                    }
-                }
-                
-                if(!document.getElementById("par-suma")){
-                    let p=document.createElement("p")
-                    p.innerHTML=`<b>${suma}</b>`;
-                    p.id="par-suma";
-                    let container=document.getElementById("produse")
-                    container.insertBefore(p,container.children[0])
-                    setTimeout(function(){
-                        let par=document.getElementById("par-suma");
-                        if(par)
-                            par.remove();
-                        
+  function actualizeazaNumarProduse() {
+    const vizibile = produse.filter((produs) => produs.style.display !== "none").length;
+    rezultatFiltrare.textContent = `Produse afisate: ${vizibile}`;
+  }
 
-                    }, 2000)
-                }
+  function filtreazaProduse() {
+    if (!valideazaInputuri()) {
+      return;
+    }
+    for (const produs of produse) {
+      produs.style.display = produsVizibil(produs) ? "" : "none";
+    }
+    actualizeazaNumarProduse();
+  }
 
-            }
+  function reseteazaFiltre() {
+    if (!confirm("Sigur vrei sa resetezi filtrele?")) {
+      return;
+    }
+    inpDescriere.value = "";
+    inpProducator.value = "";
+    inpPret.value = inpPret.max;
+    infoRange.textContent = inpPret.max;
+    inpNume.value = "";
+    inpCuloare.value = "oricare";
+    inpNoutati.checked = false;
+    document.getElementById("format-toate").checked = true;
+    Array.from(inpCaracteristici.options).forEach((opt) => {
+      opt.selected = false;
+    });
+    inpDescriere.classList.remove("is-invalid");
+    inpNume.classList.remove("is-invalid");
+    seteazaMesaj("");
 
-        }
-    
-    
-    })
+    for (const produs of ordineInitiala) {
+      produs.style.display = "";
+      containerProduse.appendChild(produs);
+    }
+    actualizeazaNumarProduse();
+  }
 
+  function sorteazaProduse(semn) {
+    if (!valideazaInputuri()) {
+      return;
+    }
+    const sortate = [...produse].sort(function (a, b) {
+      const compNume = a.dataset.nume.localeCompare(b.dataset.nume, "ro");
+      if (compNume !== 0) {
+        return semn * compNume;
+      }
+      const raportA = Number(a.dataset.durata) / Number(a.dataset.pret);
+      const raportB = Number(b.dataset.durata) / Number(b.dataset.pret);
+      return semn * (raportA - raportB);
+    });
+
+    for (const produs of sortate) {
+      containerProduse.appendChild(produs);
+    }
+  }
+
+  function calculeazaMediaPreturilor() {
+    if (!valideazaInputuri()) {
+      return;
+    }
+    const vizibile = produse.filter((produs) => produs.style.display !== "none");
+    const suma = vizibile.reduce((total, produs) => total + Number(produs.dataset.pret), 0);
+    const media = vizibile.length ? suma / vizibile.length : 0;
+
+    const div = document.createElement("div");
+    div.className = "rezultat-calcul";
+    div.textContent = `Media preturilor vizibile: ${media.toFixed(2)} RON`;
+    document.body.appendChild(div);
+
+    setTimeout(function () {
+      div.remove();
+    }, 2000);
+  }
+
+  inpPret.addEventListener("input", function () {
+    infoRange.textContent = inpPret.value;
+  });
+  inpDescriere.addEventListener("input", valideazaInputuri);
+  inpNume.addEventListener("input", valideazaInputuri);
+  document.getElementById("filtrare").addEventListener("click", filtreazaProduse);
+  document.getElementById("resetare").addEventListener("click", reseteazaFiltre);
+  document.getElementById("sortCrescNume").addEventListener("click", function () {
+    sorteazaProduse(1);
+  });
+  document.getElementById("sortDescrescNume").addEventListener("click", function () {
+    sorteazaProduse(-1);
+  });
+  document.getElementById("calculeaza").addEventListener("click", calculeazaMediaPreturilor);
+});

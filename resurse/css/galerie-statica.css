@@ -1,26 +1,40 @@
 #galerie-statica {
-  counter-reset: nrimag 0;
+  counter-reset: nrimag;
 }
 
 #grid-galerie {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
+  grid-template-areas:
+    "g1 . g2"
+    "g3 g4 g5"
+    "g6 . g7"
+    "g8 g9 g10";
+  gap: 1rem;
+  width: 100%;
 }
+
+#grid-galerie figure:nth-child(1) { grid-area: g1; }
+#grid-galerie figure:nth-child(2) { grid-area: g2; }
+#grid-galerie figure:nth-child(3) { grid-area: g3; }
+#grid-galerie figure:nth-child(4) { grid-area: g4; }
+#grid-galerie figure:nth-child(5) { grid-area: g5; }
+#grid-galerie figure:nth-child(6) { grid-area: g6; }
+#grid-galerie figure:nth-child(7) { grid-area: g7; }
+#grid-galerie figure:nth-child(8) { grid-area: g8; }
+#grid-galerie figure:nth-child(9) { grid-area: g9; }
+#grid-galerie figure:nth-child(10) { grid-area: g10; }
 
 #grid-galerie figure {
   margin: 0;
-  border: 1px solid rgba(255, 58, 167, 0.3);
-  border-radius: 14px;
+  border: 1px solid var(--border-principal);
+  border-radius: var(--raza);
   overflow: hidden;
   background: rgba(0, 0, 0, 0.22);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
 
-#grid-galerie figure:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.45);
-  filter: saturate(1.15);
+#grid-galerie picture {
+  overflow: hidden;
 }
 
 #grid-galerie img {
@@ -28,25 +42,125 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
   display: block;
+  transform-origin: center bottom;
+  transition: transform 1.25s ease;
+  border: 0;
+  border-radius: 0;
+}
+
+#grid-galerie figure:hover img {
+  transform: translateY(-23.0769%) scale(1.3);
 }
 
 #grid-galerie figcaption {
-  counter-increment: nrimag 1;
+  counter-increment: nrimag;
   text-align: center;
-  padding: 0.4rem 0.55rem;
-  color: #f6ebff;
+  padding: 0.45rem 0.55rem;
+  color: var(--text-principal);
+  background: var(--fundal-suprafata-2);
   font-size: 0.95rem;
+  transition: color 1.25s ease, background-color 1.25s ease;
+}
+
+#grid-galerie figure:hover figcaption {
+  color: var(--fundal-pagina);
+  background: var(--accent-auriu);
 }
 
 #grid-galerie figcaption::before {
-  content: counter(nrimag, upper-roman) ". ";
-  color: #ff7ac8;
+  content: counter(nrimag, lower-alpha) ". ";
+  color: var(--culoare-principala);
   font-weight: 700;
+}
+
+#grid-galerie figure:hover figcaption::before {
+  color: var(--fundal-pagina);
+}
+
+#galerie-animata {
+  --durata-cadru: 3s;
+}
+
+.scena-galerie-animata {
+  position: relative;
+  width: min(36rem, 100%);
+  aspect-ratio: 4 / 3;
+  margin: 1rem auto 0;
+  overflow: hidden;
+  border: 18px solid transparent;
+  border-image: linear-gradient(45deg, var(--culoare-principala), var(--accent-auriu), var(--accent-cald), var(--accent-rece)) 18;
+  background: var(--fundal-pagina);
+}
+
+.scena-galerie-animata figure {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  transform-origin: center bottom;
+  animation: galerie-cadru calc(var(--nr-imagini) * var(--durata-cadru)) linear infinite;
+  animation-delay: calc(var(--i) * var(--durata-cadru));
+}
+
+.scena-galerie-animata:hover figure {
+  animation-play-state: paused;
+}
+
+.scena-galerie-animata img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 0;
+  border-radius: 0;
+}
+
+.scena-galerie-animata figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0.45rem;
+  text-align: center;
+  background: rgba(8, 10, 13, 0.78);
+  color: var(--text-principal);
+}
+
+@keyframes galerie-cadru {
+  0%,
+  8% {
+    opacity: 1;
+    transform: scaleY(1) rotate(0);
+  }
+
+  12% {
+    opacity: 1;
+    transform: scaleY(0.12) rotate(0);
+  }
+
+  16% {
+    opacity: 0;
+    transform: scaleY(0.12) rotate(72deg) translateX(60%);
+  }
+
+  16.1%,
+  100% {
+    opacity: 0;
+  }
 }
 
 @media (max-width: 1000px) {
   #grid-galerie {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: none;
+  }
+
+  #grid-galerie figure {
+    grid-area: auto !important;
+  }
+
+  #galerie-animata {
+    display: none;
   }
 }
 

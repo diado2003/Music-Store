@@ -2,13 +2,30 @@ const fs = require("fs");
 const path = require("path");
 const express = require("express");
 const sass = require("sass");
+const { Pool } = require("pg");
+let sharp = null;
+try {
+  sharp = require("sharp");
+} catch (err) {
+  sharp = null;
+}
 
 const app = express();
 const PORT = Number(process.env.PORT) || 8080;
+const poolProduse = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  host: process.env.PGHOST || "localhost",
+  port: Number(process.env.PGPORT) || 5432,
+  database: process.env.PGDATABASE || "music_store",
+  user: process.env.PGUSER || "music_store_app",
+  password: process.env.PGPASSWORD || "music_store_pass",
+  connectionTimeoutMillis: 900,
+});
 
 const obGlobal = {
   obErori: null,
   obGalerie: null,
+  produse: [],
   folderScss: path.join(__dirname, "resurse", "scss"),
   folderCss: path.join(__dirname, "resurse", "css"),
 };
@@ -451,13 +468,14 @@ function valideazaDateGalerie(obGalerie) {
 
   if (Array.isArray(obGalerie.imagini)) {
     obGalerie.imagini.forEach((imagine, index) => {
-      if (!imagine || !imagine.fisier) {
-        console.error(`[VALIDARE galerie.json] Imaginea de pe pozitia ${index} nu are proprietatea \"fisier\".`);
+      const fisierImagine = imagine?.cale_imagine || imagine?.fisier;
+      if (!imagine || !fisierImagine) {
+        console.error(`[VALIDARE galerie.json] Imaginea de pe pozitia ${index} nu are proprietatea \"cale_imagine\".`);
         valid = false;
         return;
       }
 
-      const caleImagine = path.join(caleGalerieFs, imagine.fisier);
+      const caleImagine = path.join(caleGalerieFs, fisierImagine);
       if (!fs.existsSync(caleImagine)) {
         console.error(`[VALIDARE galerie.json] Fisierul imagine lipseste: ${caleImagine}`);
         valid = false;
@@ -487,48 +505,258 @@ function initGalerie() {
   }
 }
 
-function obtineImaginiGalerie() {
+function initProduse() {
+  const caleJson = path.join(__dirname, "resurse", "json", "produse.json");
+  if (!fs.existsSync(caleJson)) {
+    console.error(`[INIT PRODUSE] Nu exista fisierul ${caleJson}`);
+    obGlobal.produse = [];
+    return;
+  }
+
+  try {
+    const produse = JSON.parse(fs.readFileSync(caleJson, "utf-8"));
+    obGlobal.produse = Array.isArray(produse) ? produse : [];
+  } catch (err) {
+    console.error(`[INIT PRODUSE] Eroare la citirea produselor: ${err.message}`);
+    obGlobal.produse = [];
+  }
+}
+
+function normalizeazaProdus(produs) {
+  return {
+    ...produs,
+    id: Number(produs.id),
+    pret: Number(produs.pret),
+    durata_minute: Number(produs.durata_minute),
+    stoc: Number(produs.stoc),
+    greutate_g: Number(produs.greutate_g),
+    admite_voucher: produs.admite_voucher === true || produs.admite_voucher === "true",
+    data_adaugare: produs.data_adaugare instanceof Date
+      ? produs.data_adaugare.toISOString().slice(0, 10)
+      : String(produs.data_adaugare).slice(0, 10),
+  };
+}
+
+function minuteDinOra(ora) {
+  const match = String(ora || "").match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) {
+    return null;
+  }
+  return Number(match[1]) * 60 + Number(match[2]);
+}
+
+function intervalContineOra(interval, minuteCurente) {
+  const match = String(interval || "").match(/^(\d{1,2}:\d{2})-(\d{1,2}:\d{2})$/);
+  if (!match) {
+    return true;
+  }
+
+  const start = minuteDinOra(match[1]);
+  const final = minuteDinOra(match[2]);
+  if (start === null || final === null) {
+    return true;
+  }
+
+  if (start <= final) {
+    return minuteCurente >= start && minuteCurente <= final;
+  }
+  return minuteCurente >= start || minuteCurente <= final;
+}
+
+function caleImagineRedimensionata(caleWeb, fisier, folder, fallback) {
+  const nume = path.basename(fisier, path.extname(fisier)) + ".webp";
+  const caleRelativa = path.posix.join(caleWeb, folder, nume);
+  const caleFs = path.join(__dirname, caleRelativa.replace(/^\/+/, ""));
+  return fs.existsSync(caleFs) ? caleRelativa : fallback;
+}
+
+function genereazaImagineRedimensionata(caleSursa, caleDestinatie, latime) {
+  if (!sharp || fs.existsSync(caleDestinatie)) {
+    return;
+  }
+  fs.mkdirSync(path.dirname(caleDestinatie), { recursive: true });
+  sharp(caleSursa)
+    .resize({ width: latime, withoutEnlargement: true })
+    .webp({ quality: 82 })
+    .toFile(caleDestinatie)
+    .catch((err) => console.error(`[GALERIE] Nu s-a putut genera ${caleDestinatie}: ${err.message}`));
+}
+
+function normalizeazaImagineGalerie(img, index, caleWeb, caleGalerieFs) {
+  const fisier = img.cale_imagine || img.fisier;
+  const cale = path.posix.join(caleWeb, fisier);
+  const caleSursa = path.join(caleGalerieFs, fisier);
+  const numeWebp = path.basename(fisier, path.extname(fisier)) + ".webp";
+
+  genereazaImagineRedimensionata(caleSursa, path.join(caleGalerieFs, "mediu", numeWebp), 700);
+  genereazaImagineRedimensionata(caleSursa, path.join(caleGalerieFs, "mic", numeWebp), 380);
+
+  return {
+    ...img,
+    index: index + 1,
+    cale,
+    caleMedie: caleImagineRedimensionata(caleWeb, fisier, "mediu", cale),
+    caleMica: caleImagineRedimensionata(caleWeb, fisier, "mic", cale),
+    titlu: img.titlu || img.descriere || `Imagine galerie ${index + 1}`,
+    descriere: img.descriere || img.titlu || `Imagine galerie ${index + 1}`,
+    alt: img.alt || img.titlu || img.descriere || fisier,
+  };
+}
+
+function obtineToateImaginileGalerie() {
   if (!obGlobal.obGalerie || !Array.isArray(obGlobal.obGalerie.imagini)) {
     return [];
   }
 
-  const luni = [
-    "ianuarie",
-    "februarie",
-    "martie",
-    "aprilie",
-    "mai",
-    "iunie",
-    "iulie",
-    "august",
-    "septembrie",
-    "octombrie",
-    "noiembrie",
-    "decembrie",
-  ];
-
-  const lunaCurenta = luni[new Date().getMonth()];
   const caleWeb = obGlobal.obGalerie.cale_galerie.startsWith("/")
     ? obGlobal.obGalerie.cale_galerie
     : `/${obGlobal.obGalerie.cale_galerie}`;
+  const caleGalerieFs = path.join(__dirname, obGlobal.obGalerie.cale_galerie.replace(/^\/+/, ""));
 
-  const imaginiFiltrate = obGlobal.obGalerie.imagini.filter((img) => {
-    if (!Array.isArray(img.luni) || img.luni.length === 0) {
-      return true;
-    }
-    return img.luni.map((luna) => String(luna).toLowerCase()).includes(lunaCurenta);
+  return obGlobal.obGalerie.imagini.map((img, index) => normalizeazaImagineGalerie(img, index, caleWeb, caleGalerieFs));
+}
+
+function obtineImaginiGalerie() {
+  const toate = obtineToateImaginileGalerie();
+  const acum = new Date();
+  const minuteCurente = acum.getHours() * 60 + acum.getMinutes();
+  const filtrate = toate.filter((img) => intervalContineOra(img.timp, minuteCurente));
+  return (filtrate.length > 0 ? filtrate : toate).slice(0, 10);
+}
+
+function amestecaVector(vector) {
+  const copie = [...vector];
+  for (let i = copie.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copie[i], copie[j]] = [copie[j], copie[i]];
+  }
+  return copie;
+}
+
+function obtineImaginiGalerieAnimata() {
+  const toate = obtineToateImaginileGalerie();
+  if (toate.length === 0) {
+    return [];
+  }
+  const variante = [7, 8, 9, 11].filter((nr) => nr <= toate.length);
+  const nr = variante[Math.floor(Math.random() * variante.length)] || Math.min(7, toate.length);
+  return amestecaVector(toate).slice(0, nr);
+}
+
+function obtineDateProduse() {
+  const produse = obGlobal.produse.map(normalizeazaProdus);
+  const categoriiProduse = [...new Set(produse.map((produs) => produs.categorie_mare).filter(Boolean))].sort();
+  const formateProduse = [...new Set(produse.map((produs) => produs.format).filter(Boolean))].sort();
+  const culoriProduse = [...new Set(produse.map((produs) => produs.culoare).filter(Boolean))].sort();
+  const producatoriProduse = [...new Set(produse.map((produs) => produs.producator).filter(Boolean))].sort();
+  const caracteristiciProduse = [
+    ...new Set(produse.flatMap((produs) => String(produs.caracteristici || "").split(",").map((val) => val.trim()).filter(Boolean))),
+  ].sort();
+  const preturi = produse.map((produs) => Number(produs.pret)).filter((pret) => !Number.isNaN(pret));
+  const durate = produse.map((produs) => Number(produs.durata_minute)).filter((durata) => !Number.isNaN(durata));
+  const pretMinim = preturi.length ? Math.min(...preturi) : 0;
+  const pretMaxim = preturi.length ? Math.max(...preturi) : 100;
+  const durataMinima = durate.length ? Math.min(...durate) : 0;
+  const durataMaxima = durate.length ? Math.max(...durate) : 100;
+
+  return {
+    produse,
+    categoriiProduse,
+    formateProduse,
+    culoriProduse,
+    producatoriProduse,
+    caracteristiciProduse,
+    pretMinim,
+    pretMaxim,
+    durataMinima,
+    durataMaxima,
+    filtreProduse: {
+      descriere: { id: "inp-descriere", label: "Cuvant in descriere", placeholder: "ex: colectie" },
+      producator: { id: "inp-producator", label: "Producator", placeholder: "oricare", optiuni: producatoriProduse },
+      pret: { id: "inp-pret", label: "Pret maxim", min: pretMinim, max: pretMaxim, valoare: pretMaxim },
+      format: { name: "gr_format", label: "Format", optiuni: formateProduse },
+      nume: { id: "inp-nume", label: "Nume produs - incepe cu", placeholder: "Nume produs" },
+      culoare: { id: "inp-culoare", label: "Culoare", optiuni: culoriProduse },
+      caracteristici: { id: "inp-caracteristici", label: "Caracteristici", optiuni: caracteristiciProduse },
+      noutati: { id: "inp-noutati", label: "Noutati", dataReferinta: "2026-05-01" },
+    },
+  };
+}
+
+function formatDataRo(dataIso) {
+  const data = new Date(`${String(dataIso).slice(0, 10)}T12:00:00`);
+  const formatter = new Intl.DateTimeFormat("ro-RO", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   });
+  const text = formatter.format(data);
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
-  const imaginiRezultat = (imaginiFiltrate.length > 0 ? imaginiFiltrate : obGlobal.obGalerie.imagini)
-    .slice(0, 12)
-    .map((img, index) => ({
-      ...img,
-      index: index + 1,
-      cale: path.posix.join(caleWeb, img.fisier),
-      descriere: img.descriere || `Imagine galerie ${index + 1}`,
-    }));
+async function produseDinDb(categorie) {
+  const valori = [];
+  let query = "SELECT * FROM produse";
+  if (categorie) {
+    query += " WHERE categorie_mare = $1";
+    valori.push(categorie);
+  }
+  query += " ORDER BY id";
+  const rezultat = await poolProduse.query(query, valori);
+  return rezultat.rows.map(normalizeazaProdus);
+}
 
-  return imaginiRezultat;
+async function categoriiDinDb() {
+  const rezultat = await poolProduse.query(
+    "SELECT enumlabel AS categorie FROM pg_enum JOIN pg_type ON pg_enum.enumtypid = pg_type.oid WHERE typname = 'categorie_album' ORDER BY enumsortorder"
+  );
+  return rezultat.rows.map((rand) => rand.categorie);
+}
+
+async function obtineDateProduseAsync(categorie) {
+  try {
+    const produseDb = await produseDinDb(categorie);
+    const categoriiProduse = await categoriiDinDb();
+    const date = obtineDateProduse();
+    const produse = produseDb;
+    const preturi = produse.map((produs) => produs.pret);
+    const durate = produse.map((produs) => produs.durata_minute);
+    return {
+      ...date,
+      produse,
+      categoriiProduse,
+      formateProduse: [...new Set(produse.map((produs) => produs.format))].sort(),
+      culoriProduse: [...new Set(produse.map((produs) => produs.culoare))].sort(),
+      producatoriProduse: [...new Set(produse.map((produs) => produs.producator))].sort(),
+      caracteristiciProduse: [
+        ...new Set(produse.flatMap((produs) => produs.caracteristici.split(",").map((val) => val.trim()).filter(Boolean))),
+      ].sort(),
+      pretMinim: preturi.length ? Math.min(...preturi) : 0,
+      pretMaxim: preturi.length ? Math.max(...preturi) : 100,
+      durataMinima: durate.length ? Math.min(...durate) : 0,
+      durataMaxima: durate.length ? Math.max(...durate) : 100,
+      filtreProduse: {
+        descriere: { id: "inp-descriere", label: "Cuvant in descriere", placeholder: "ex: colectie" },
+        producator: { id: "inp-producator", label: "Producator", placeholder: "oricare", optiuni: [...new Set(produse.map((produs) => produs.producator))].sort() },
+        pret: { id: "inp-pret", label: "Pret maxim", min: preturi.length ? Math.min(...preturi) : 0, max: preturi.length ? Math.max(...preturi) : 100, valoare: preturi.length ? Math.max(...preturi) : 100 },
+        format: { name: "gr_format", label: "Format", optiuni: [...new Set(produse.map((produs) => produs.format))].sort() },
+        nume: { id: "inp-nume", label: "Nume produs - incepe cu", placeholder: "Nume produs" },
+        culoare: { id: "inp-culoare", label: "Culoare", optiuni: [...new Set(produse.map((produs) => produs.culoare))].sort() },
+        caracteristici: { id: "inp-caracteristici", label: "Caracteristici", optiuni: [...new Set(produse.flatMap((produs) => produs.caracteristici.split(",").map((val) => val.trim()).filter(Boolean)))].sort() },
+        noutati: { id: "inp-noutati", label: "Noutati", dataReferinta: "2026-05-01" },
+      },
+      sursaProduse: "baza de date",
+    };
+  } catch (err) {
+    const toate = obtineDateProduse();
+    const produse = categorie ? toate.produse.filter((produs) => produs.categorie_mare === categorie) : toate.produse;
+    return {
+      ...toate,
+      produse,
+      sursaProduse: "json fallback",
+    };
+  }
 }
 
 function ipClientDinRequest(req) {
@@ -581,6 +809,9 @@ function randeazaPagina(res, req, numePagina, locals = {}) {
     {
       ipClient: ipClientDinRequest(req),
       imaginiGalerie: obtineImaginiGalerie(),
+      imaginiAnimata: obtineImaginiGalerieAnimata(),
+      ...obtineDateProduse(),
+      formatDataRo,
       ...locals,
     },
     (eroare, rezultatRandare) => {
@@ -609,6 +840,7 @@ function randeazaPagina(res, req, numePagina, locals = {}) {
 
 initErori();
 initGalerie();
+initProduse();
 compileazaInitialScss();
 urmaresteScss();
 
@@ -636,6 +868,32 @@ app.get(/^\/.*\.ejs$/i, (req, res) => {
 
 app.get(["/", "/index", "/home"], (req, res) => {
   randeazaPagina(res, req, "index", { titluPagina: "Magazin de discuri - Acasa" });
+});
+
+app.get("/produse", async (req, res) => {
+  const categorie = typeof req.query.categorie === "string" ? req.query.categorie : "";
+  const dateProduse = await obtineDateProduseAsync(categorie);
+  randeazaPagina(res, req, "produse", {
+    ...dateProduse,
+    categorieSelectata: categorie,
+    titluPagina: "Produse - Magazin de discuri",
+  });
+});
+
+app.get("/produs/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  const dateProduse = await obtineDateProduseAsync();
+  const produs = dateProduse.produse.find((prod) => prod.id === id);
+  if (!produs) {
+    afisareEroare(res, 404, "Produs inexistent", "Produsul cerut nu exista in magazin.", undefined, req);
+    return;
+  }
+
+  randeazaPagina(res, req, "produs", {
+    ...dateProduse,
+    produs,
+    titluPagina: `${produs.nume} - Magazin de discuri`,
+  });
 });
 
 app.get(/^\/(.*)$/, (req, res, next) => {

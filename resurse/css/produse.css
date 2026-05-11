@@ -1,81 +1,123 @@
-
-main{
-    --padd-main:1rem;
-    padding-left:var(--padd-main);
-    padding-right:var(--padd-main);
-    background-color: var(--culoare4);
+.pagina-produse {
+  display: block;
 }
 
-.grid-produse{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap:1rem;
-}
-.grid-produse .produs{
-    border-radius: 2rem;
-    box-shadow: 0px 0px 0.8rem 0.3rem grey;
-    overflow: hidden;
+.sectiune-filtre {
+  margin-bottom: 1rem;
 }
 
-.grid-produse .produs h3{
-    background-color: var(--culoare2);
-    text-align: center;
-    margin-top: 0;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+.sursa-produse {
+  color: var(--text-secundar);
+  font-size: 0.9rem;
 }
 
-.grid-produse .produs h3 a{
-    color:black;
-}
-.grid-produse .produs h3 a:hover{
-    color:var(--culoare_background);
-}
-.grid-produse .produs figure{
-    text-align: center;
-}
-.grid-produse .produs figure img{
-    border:1px solid grey
-}
-.grid-produse .produs .info-prod{
-    display:flex;
-    background-color: var(--culoare_background);
-}
-.grid-produse .produs .info-prod p{
-    width:30%;
-    text-align:center;
-    font-weight:bold;
+.grid-produse {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
 }
 
-.grid-produse .produs p.categorie{
-
-    text-align:center;
-    font-weight:bold;
+.produs,
+.produs-unic {
+  overflow: hidden;
+  padding: 1rem;
+  background: var(--fundal-suprafata);
+  border: 1px solid var(--border-principal);
+  border-radius: var(--raza);
+  box-shadow: 0 12px 28px var(--umbra);
+  color: var(--text-principal);
 }
 
-.info-produse{
-    background-color: red;
-    padding:0.2rem;
-    box-shadow: 0px 0px 0.5rem 0.15rem grey;
+.produs h3,
+.produs-unic h2 {
+  margin-bottom: 0.85rem;
 }
 
-.produs{
-    position: relative;
-}
-.selecteaza-cos{
-    display: inline-block;
-    /*background-color: var(--culoare-mov);*/
-    position:absolute;
-    bottom:0.5rem;
-    right:0.5rem;
-    border-radius: 0.5rem;
-    text-align: center;
-    padding:0.3rem;
-    border:1px solid transparent;
+.produs h3 a {
+  color: var(--accent-auriu);
+  text-decoration: none;
 }
 
-.selecteaza-cos:hover{
-    background-color: var(--cl-marcare);
-    
-    border:1px solid  var(--culoare-mov);
+.corp-produs {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.media-produs img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--raza);
+}
+
+.lista-caracteristici {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.75rem 0 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.lista-caracteristici li,
+.detalii-produs p {
+  margin: 0.35rem 0;
+}
+
+.lista-caracteristici strong,
+.detalii-produs strong,
+.categorie-produs strong {
+  display: inline-block;
+  padding: 0.05rem 0.3rem;
+  margin-right: 0.25rem;
+  border-radius: 0.25rem;
+  background: rgba(29, 185, 84, 0.18);
+  color: var(--accent-auriu);
+}
+
+.detalii-produs {
+  min-width: 0;
+}
+
+.categorie-produs {
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.rezultat-calcul {
+  position: fixed;
+  right: 1rem;
+  top: 5rem;
+  z-index: 1000;
+  max-width: min(22rem, calc(100vw - 2rem));
+  padding: 0.9rem 1rem;
+  border-radius: var(--raza);
+  border: 1px solid var(--border-principal);
+  background: var(--accent-auriu);
+  color: var(--fundal-pagina);
+  font-weight: 800;
+  box-shadow: 0 12px 28px var(--umbra);
+}
+
+.pagina-produs-unic {
+  display: block;
+}
+
+@media (max-width: 1100px) {
+  .grid-produse {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .corp-produs {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-produse .text-buton,
+  .selector-tema span {
+    display: none;
+  }
 }

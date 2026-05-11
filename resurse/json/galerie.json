@@ -1,63 +1,111 @@
 {
-    "cale_galerie":"resurse/imagini/galerie",
-    "imagini": [
-        {
-            "fisier":"briose-frisca.png",
-            "descriere":"Brioșe",
-            "luni":["martie","februarie","noiembrie","aprilie"]
-        },
-        {
-            "fisier":"clatite.png",
-            "descriere":"Clătite cu dulceață",
-            "luni":["ianuarie","februarie","iunie"]
-
-        },
-        {
-            "fisier":"gogosi.png",
-            "descriere":"Gogoși glazurate",
-            "luni":["ianuarie","noiembrie","iunie","martie","aprilie"]
-        },
-        {
-            "fisier":"tort-scortisoara.png",
-            "descriere":"Tort cu scorțisoară",
-
-            "luni":["noiembrie","aprilie"]
-        },
-        {
-            "fisier":"prajitura-ciocolata.png",
-            "descriere":"Prăjitură cu ciocolată"
-        },
-        {
-            "fisier":"tarta-afine.png",
-            "descriere":"Tartă cu afine"
-        },
-        {
-            "fisier":"tort-trandafiri.png",
-            "descriere":"Tort special"
-        },
-        {
-            "fisier":"cake.jpg",
-            "descriere":"cake"
-        },
-        {
-            "fisier":"cake2.jpg",
-            "descriere":"cake2"
-        },
-        {
-            "fisier":"cake3.jpg",
-            "descriere":"cake3"
-        },
-		{
-            "fisier":"cookie 1.jpg",
-            "descriere":"cookie"
-        },
-		{
-            "fisier":"cupcake 1.jpg",
-            "descriere":"cake3"
-        },
-		{
-            "fisier":"cookie 2.jpeg",
-            "descriere":"cake3"
-        }
-    ]
+  "cale_galerie": "resurse/imagini/galerie",
+  "imagini": [
+    {
+      "cale_imagine": "cake.jpg",
+      "titlu": "Raft viniluri rare",
+      "descriere": "Selectie vizuala pentru zona de colectii si editii rare.",
+      "alt": "Raft cu albume de colectie",
+      "timp": "00:00-23:59",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "cake2.jpg",
+      "titlu": "Auditie in magazin",
+      "descriere": "Atmosfera de auditie pentru clienti pasionati de sunet analog.",
+      "alt": "Auditie muzicala in magazin",
+      "timp": "08:00-14:00",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "cake3.jpg",
+      "titlu": "Editii rock",
+      "descriere": "Albume rock pregatite pentru recomandari de weekend.",
+      "alt": "Albume rock",
+      "timp": "10:00-19:00",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "briose-frisca.png",
+      "titlu": "Noutati CD",
+      "descriere": "Zona dedicata CD-urilor noi si remasterizarilor.",
+      "alt": "CD-uri noi",
+      "timp": "12:00-22:00",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "clatite.png",
+      "titlu": "Classic metal",
+      "descriere": "Titluri metal clasice si albume recomandate colectionarilor.",
+      "alt": "Albume metal",
+      "timp": "15:00-23:00",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "gogosi.png",
+      "titlu": "Accesorii pickup",
+      "descriere": "Kituri de curatare, ace si accesorii pentru vinil.",
+      "alt": "Accesorii pentru pickup",
+      "timp": "06:00-12:30",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "prajitura-ciocolata.png",
+      "titlu": "Colectie progressive",
+      "descriere": "Albume progressive cu coperti expresive si editii speciale.",
+      "alt": "Colectie progressive",
+      "timp": "09:00-18:00",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "tarta-afine.png",
+      "titlu": "Pachet cadou",
+      "descriere": "Recomandari pentru cadouri: vinil, CD si accesorii.",
+      "alt": "Pachet cadou muzical",
+      "timp": "18:00-02:00",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "tort-scortisoara.png",
+      "titlu": "Lansari recente",
+      "descriere": "Lansari recente pentru rock alternativ si indie.",
+      "alt": "Lansari muzicale recente",
+      "timp": "11:00-20:00",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "tort-trandafiri.png",
+      "titlu": "Editie cu atribuire",
+      "descriere": "Imagine demonstrativa cu atribuire salvata in JSON.",
+      "alt": "Imagine galerie cu atribuire",
+      "timp": "07:00-17:00",
+      "licenta": "CC-BY 4.0",
+      "autor": "Diana Dospinescu",
+      "sursa": "Proiect educational local"
+    },
+    {
+      "cale_imagine": "cookie 1.jpg",
+      "titlu": "Viniluri alternative",
+      "descriere": "Selectie de albume alternative pentru ascultare seara.",
+      "alt": "Viniluri alternative",
+      "timp": "13:00-21:00",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "cupcake 1.jpg",
+      "titlu": "Recomandari staff",
+      "descriere": "Albume alese de echipa magazinului pentru clienti noi.",
+      "alt": "Recomandari muzicale",
+      "timp": "00:00-23:59",
+      "licenta": "CC0"
+    },
+    {
+      "cale_imagine": "cookie 2.jpeg",
+      "titlu": "Coltul colectiei",
+      "descriere": "Un spatiu vizual pentru colectii personale si raritati.",
+      "alt": "Colt colectie muzicala",
+      "timp": "16:00-23:59",
+      "licenta": "CC0"
+    }
+  ]
 }

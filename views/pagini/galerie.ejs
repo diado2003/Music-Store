@@ -4,7 +4,7 @@
   <%- include("../fragmente/head", { titluPagina: "Galerie statica" }) %>
 </head>
 <body id="top">
-  <%- include("../fragmente/header", { ipClient: ipClient }) %>
+  <%- include("../fragmente/header", { ipClient: ipClient, categoriiProduse: categoriiProduse }) %>
 
   <main>
     <section id="galerie-statica">
@@ -14,8 +14,24 @@
       <div id="grid-galerie">
         <% imaginiGalerie.forEach(function(imagine){ %>
           <figure>
-            <img src="<%= imagine.cale %>" alt="<%= imagine.descriere %>">
-            <figcaption><%= imagine.descriere %></figcaption>
+            <picture>
+              <source media="(max-width: 700px)" srcset="<%= imagine.caleMica || imagine.cale %>">
+              <source media="(max-width: 1000px)" srcset="<%= imagine.caleMedie || imagine.cale %>">
+              <img src="<%= imagine.cale %>" alt="<%= imagine.alt || imagine.titlu || imagine.descriere %>" title="<%= imagine.descriere %>">
+            </picture>
+            <figcaption><%= imagine.titlu || imagine.descriere %></figcaption>
+          </figure>
+        <% }) %>
+      </div>
+    </section>
+
+    <section id="galerie-animata" style="--nr-imagini:<%= imaginiAnimata.length %>">
+      <h2>Galerie animata</h2>
+      <div class="scena-galerie-animata">
+        <% imaginiAnimata.forEach(function(imagine, index){ %>
+          <figure style="--i:<%= index %>">
+            <img src="<%= imagine.cale %>" alt="<%= imagine.alt || imagine.descriere %>">
+            <figcaption><%= imagine.titlu || imagine.descriere %></figcaption>
           </figure>
         <% }) %>
       </div>
@@ -25,3 +41,4 @@
   <%- include("../fragmente/footer") %>
 </body>
 </html>
+

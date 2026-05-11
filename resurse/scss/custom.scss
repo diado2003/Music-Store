@@ -1,10 +1,10 @@
-$primary: #8a1f5b;
-$secondary: #214f3e;
+$primary: #1db954;
+$secondary: #3fa7d6;
 $danger: #c0392b;
-$warning: #f39c12;
-$info: #2d6a9f;
-$light: #f7f2ff;
-$dark: #120a1a;
+$warning: #f2c94c;
+$info: #3fa7d6;
+$light: #f3f7f2;
+$dark: #080a0d;
 
 $theme-colors: (
   "primary": $primary,
@@ -14,15 +14,15 @@ $theme-colors: (
   "info": $info,
   "light": $light,
   "dark": $dark,
-  "metal": #50326e,
-  "vinyl": #0f5a47
+  "metal": #d94f70,
+  "vinyl": #1db954
 );
 
-$body-bg: #0a0611;
-$body-color: #f3eefd;
-$headings-color: #ff9bd8;
-$link-color: #ff7ac8;
-$link-hover-color: #ffd1f0;
+$body-bg: #080a0d;
+$body-color: #f3f7f2;
+$headings-color: #f2c94c;
+$link-color: #1db954;
+$link-hover-color: #3fa7d6;
 
 $font-family-sans-serif: "Inter", "Segoe UI", Tahoma, sans-serif;
 $font-family-base: $font-family-sans-serif;
@@ -44,9 +44,10 @@ $container-max-widths: (
   xxl: 1480px
 );
 
-$border-radius: 0.85rem;
-$border-radius-lg: 1.1rem;
-$border-radius-sm: 0.5rem;
+$border-radius: 0.5rem;
+$border-radius-lg: 0.65rem;
+$border-radius-sm: 0.35rem;
+$border-width: 2px;
 
 $h1-font-size: 2.7rem;
 $h2-font-size: 2rem;
@@ -55,11 +56,24 @@ $h4-font-size: 1.35rem;
 $h5-font-size: 1.15rem;
 $h6-font-size: 1rem;
 
-$btn-border-radius: 999px;
+$btn-border-radius: 0.55rem;
+$btn-border-width: 2px;
 $btn-padding-x: 1.05rem;
 $btn-font-weight: 700;
-$card-bg: #160f21;
-$card-border-color: rgba(255, 122, 200, 0.3);
-$card-cap-bg: rgba(255, 122, 200, 0.15);
+$input-border-width: 2px;
+$input-border-color: rgba(63, 167, 214, 0.55);
+$input-focus-border-color: #1db954;
+$input-focus-box-shadow: 0 0 0 0.25rem rgba(29, 185, 84, 0.22);
+$form-range-thumb-width: 1.5rem;
+$form-range-thumb-height: 1.5rem;
+$form-range-thumb-bg: #f2c94c;
+$form-range-thumb-active-bg: #1db954;
+$form-range-track-bg: rgba(63, 167, 214, 0.35);
+$form-range-track-height: 0.45rem;
+$form-check-input-checked-bg-color: #1db954;
+$form-switch-width: 3.2em;
+$card-bg: #151a1f;
+$card-border-color: rgba(63, 167, 214, 0.42);
+$card-cap-bg: rgba(29, 185, 84, 0.15);
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
